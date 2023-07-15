@@ -17,6 +17,7 @@ jobs:
         id: content
         run: echo "html=$(cat pages/index.html)" >> $GITHUB_OUTPUT
       - name: upload-to-kv
+        uses: zentered/cloudflare-kv-action@v1.0.0
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
