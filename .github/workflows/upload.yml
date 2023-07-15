@@ -1,0 +1,25 @@
+name: Upload to KV
+on: 
+  push:
+    branches: [main]
+  paths:
+    - 'pages/index.html'
+jobs:
+  upload-to-kv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get current date
+        id: date
+        run: echo "DATE=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
+      - name: Read HTML file
+        id: content
+        run: echo "html=$(cat pages/index.html)" >> $GITHUB_OUTPUT
+      - name: upload-to-kv
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+        with:
+          namespace_identifier: 'life-history'
+          key_name: ${{ env.DATE }} ${{ github.event.head_commit.message }}
+          value: ${{ steps.content.outputs.html }}
