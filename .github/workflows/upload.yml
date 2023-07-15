@@ -1,9 +1,10 @@
 name: Upload to KV
 on: 
   push:
-    branches: [main]
-  paths:
-    - 'pages/index.html'
+    branches: 
+      - main
+    paths:
+      - 'pages/index.html'
 jobs:
   upload-to-kv:
     runs-on: ubuntu-latest
